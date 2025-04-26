@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("DATABASE_URL")
+  url          = "mysql://root:1234@db:3306/learning_system"
   relationMode = "prisma"
 }
 

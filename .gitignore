@@ -1,3 +1,40 @@
-node_modules
-# Keep environment variables out of version control
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Arquivos de ambiente
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+
+# Diretório de build
+dist/
+build/
+
+# Vercel
+.vercel
+.now
+
+# Docker
+docker-compose.override.yml
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Diretório de uploads (desenvolvimento)
+uploads/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo

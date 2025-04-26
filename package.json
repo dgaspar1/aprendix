@@ -6,12 +6,17 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "build": "prisma generate",
+    "vercel-build": "prisma generate",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "prisma migrate deploy",
     "db:seed": "node src/api/scripts/seed.js",
     "db:seed:force": "node src/api/scripts/seed.js --force",
     "setup": "npm run prisma:generate && npm run prisma:migrate && npm run db:seed",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=14.x"
   },
   "keywords": [
     "lms",

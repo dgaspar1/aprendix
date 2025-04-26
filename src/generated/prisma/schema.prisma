@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:1234@localhost:3306/learning_system"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  password     String
+  registration String        @unique
+  created_at   DateTime      @default(now())
+  enrollments  Enrollment[]
+  progress     Progress[]
+  examResults  ExamResult[]
+
+  @@map("users")
+}
+
+model LearningPath {
+  id          Int                  @id @default(autoincrement())
+  title       String
+  description String?
+  created_at  DateTime             @default(now())
+  courses     LearningPathCourse[]
+  enrollments Enrollment[]
+
+  @@map("learning_paths")
+}
+
+model Course {
+  id          Int                  @id @default(autoincrement())
+  title       String
+  description String?
+  scorm_path  String
+  created_at  DateTime             @default(now())
+  paths       LearningPathCourse[]
+  progress    Progress[]
+  exams       Exam[]
+
+  @@map("courses")
+}
+
+model LearningPathCourse {
+  id              Int          @id @default(autoincrement())
+  learning_path   LearningPath @relation(fields: [learning_path_id], references: [id])
+  learning_path_id Int
+  course          Course       @relation(fields: [course_id], references: [id])
+  course_id       Int
+
+  @@map("learning_path_course")
+}
+
+model Group {
+  id          Int          @id @default(autoincrement())
+  name        String
+  created_at  DateTime     @default(now())
+  enrollments Enrollment[]
+
+  @@map("groups")
+}
+
+model Enrollment {
+  id               Int          @id @default(autoincrement())
+  user             User         @relation(fields: [user_id], references: [id])
+  user_id          Int
+  group            Group        @relation(fields: [group_id], references: [id])
+  group_id         Int
+  learning_path    LearningPath @relation(fields: [learning_path_id], references: [id])
+  learning_path_id Int
+  created_at       DateTime     @default(now())
+
+  @@map("enrollments")
+}
+
+model Progress {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [user_id], references: [id])
+  user_id     Int
+  course      Course    @relation(fields: [course_id], references: [id])
+  course_id   Int
+  percentage  Float     @default(0)
+  started_at  DateTime  @default(now())
+  completed_at DateTime?
+
+  @@map("progress")
+}
+
+model Exam {
+  id         Int          @id @default(autoincrement())
+  course     Course       @relation(fields: [course_id], references: [id])
+  course_id  Int
+  title      String
+  created_at DateTime     @default(now())
+  questions  Question[]
+  results    ExamResult[]
+
+  @@map("exams")
+}
+
+model Question {
+  id       Int      @id @default(autoincrement())
+  exam     Exam     @relation(fields: [exam_id], references: [id])
+  exam_id  Int
+  text     String
+  answers  Answer[]
+
+  @@map("questions")
+}
+
+model Answer {
+  id          Int      @id @default(autoincrement())
+  question    Question @relation(fields: [question_id], references: [id])
+  question_id Int
+  text        String
+  is_correct  Boolean  @default(false)
+
+  @@map("answers")
+}
+
+model ExamResult {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [user_id], references: [id])
+  user_id      Int
+  exam         Exam     @relation(fields: [exam_id], references: [id])
+  exam_id      Int
+  score        Float
+  submitted_at DateTime @default(now())
+
+  @@map("exam_results")
+}

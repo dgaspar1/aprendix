@@ -1,0 +1,38 @@
+{
+  "name": "sistema-gestao-aprendizagem",
+  "version": "1.0.0",
+  "description": "Sistema de gestão de cursos online com trilhas de aprendizagem e suporte a SCORM",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "db:seed": "node src/api/scripts/seed.js",
+    "db:seed:force": "node src/api/scripts/seed.js --force",
+    "setup": "npm run prisma:generate && npm run prisma:migrate && npm run db:seed",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lms",
+    "scorm",
+    "learning",
+    "courses",
+    "education"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^4.14.0",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "prisma": "^4.14.0"
+  }
+}

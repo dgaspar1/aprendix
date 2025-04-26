@@ -1,0 +1,22 @@
+node_modules
+npm-debug.log
+.git
+.github
+.vscode
+*.md
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignore dev files
+*.log
+coverage/
+tests/
+docs/
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore 

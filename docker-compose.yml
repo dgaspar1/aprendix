@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - DATABASE_URL=mysql://root:1234@db:3306/learning_system
+      - JWT_SECRET=minha_chave_secreta_super_segura_123456789
+    restart: always
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - aprendix-network
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=learning_system
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - aprendix-network
+
+volumes:
+  mysql-data:
+
+networks:
+  aprendix-network:
+    driver: bridge 
